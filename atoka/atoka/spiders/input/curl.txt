@@ -1,0 +1,16 @@
+curl 'https://atoka.io/api/companysearch/search/' \
+  -H 'Connection: keep-alive' \
+  -H 'Accept: */*' \
+  -H 'X-CSRFToken: mSad4dCVOAJBP2dNGSvphE9GUXAEwebTV4P0RKz8QAOptfSObj9O02yxO1WiPqd5' \
+  -H 'X-Requested-With: XMLHttpRequest' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36' \
+  -H 'Content-Type: application/json' \
+  -H 'Origin: https://atoka.io' \
+  -H 'Sec-Fetch-Site: same-origin' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Referer: https://atoka.io/' \
+  -H 'Accept-Language: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7' \
+  -H 'Cookie: deviceId=502291cf2570edf4f14a3630c5cae528; _iub_cs-8267656=%7B%22timestamp%22%3A%222020-07-06T06%3A07%3A51.710Z%22%2C%22version%22%3A%221.21.0%22%2C%22consent%22%3Atrue%2C%22id%22%3A8267656%7D; _gcl_au=1.1.1203123420.1594015672; _ga=GA1.2.1856786910.1594015672; _gid=GA1.2.384914560.1594015672; _gat_UA-27344094-14=1; csrftoken=mSad4dCVOAJBP2dNGSvphE9GUXAEwebTV4P0RKz8QAOptfSObj9O02yxO1WiPqd5; sessionid=.eJxVjk9PwzAMxb9LzlNVqrK1vQGqAI1N6oGBuERO7KxZo7Rq-mcw7buTQg_rxfLzz-_ZF-Y6EIZekWWs2X1Vw1tefDyfuzY_5M5un6J9_r1_UefPwlRSNAjxoVBbtmKj_oEWuamP2vJB08iyiw-jhmW2N2b113OEDjy4zlJpQ-5fk78BN3wAo70i5AujJxz6ruS9o5br6c27eJ1GbDEXICuyE8QT2GMdyNp2rRbBtBLM1AUPxtSjL-_e43Y1knmcjYu0ElzpozYpASGhpHsFQm2SMAGlCJJwkpjEaRgJlIJdfwEMCnNO:1jsKIF:RcrWJg82w1U4h0dHuuMzO4KXpTs; AWSELB=7F9937EB1E7A14FC00D97A706C375DAA514C1D514592211C977461F4205E24FCCB1EB2A112AE5819C3E5ABF2B6BB130FAF2F760AF6131CFEF156AB0682FB8C438731346F23BBE2EF08A2D0831CDF7407AA7BD9947C; django_language=it; _iub_cs-551896=%7B%22timestamp%22%3A%222020-07-06T06%3A08%3A00.499Z%22%2C%22version%22%3A%221.21.0%22%2C%22consent%22%3Atrue%2C%22id%22%3A551896%7D; mp_7b3e668f6e578f88bd14868ae5b7aff9_mixpanel=%7B%22distinct_id%22%3A%20%2214692%22%2C%22%24device_id%22%3A%20%2217322bcf916552-088971c1b84ac1-39760e5a-1fa400-17322bcf917ac2%22%2C%22%24initial_referrer%22%3A%20%22https%3A%2F%2Fatoka.io%2F%22%2C%22%24initial_referring_domain%22%3A%20%22atoka.io%22%2C%22__mps%22%3A%20%7B%7D%2C%22__mpso%22%3A%20%7B%7D%2C%22__mpus%22%3A%20%7B%7D%2C%22__mpa%22%3A%20%7B%7D%2C%22__mpu%22%3A%20%7B%7D%2C%22__mpr%22%3A%20%5B%5D%2C%22__mpap%22%3A%20%5B%5D%2C%22%24user_id%22%3A%20%2214692%22%2C%22%24ignore%22%3A%20false%7D' \
+  --data-binary '{"version":"3.1.0","meta":{}}' \
+  --compressed
