@@ -9,7 +9,7 @@ import scrapy
 class AtokaContactsItem(scrapy.Item):
     code = scrapy.item.Field(serializer=str)
     company_name = scrapy.item.Field(serializer=str)
-    url = scrapy.item.Field(serializer=str)
+    # url = scrapy.item.Field(serializer=str)
     vat_id = scrapy.item.Field(serializer=str)
     numero_rea = scrapy.item.Field(serializer=str)
     emails = scrapy.item.Field()

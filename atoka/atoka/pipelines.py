@@ -14,7 +14,7 @@ from scrapy.exceptions import DropItem
 
 from .items import (
     AtokaContactsItem,
-    AtokaPersonsInfoItem,
+    # AtokaPersonsInfoItem,
     AtokaErrorContactsItem,
 )
 from .settings import BASE_DIR
@@ -26,10 +26,20 @@ class ExcelOutputPipeline:
         self.error_wb_path = os.path.join(BASE_DIR, 'atoka/spiders/output/error.xlsx')
         self.cod_fiscale_row_mapping = {}
         self.last_row_output = 1
-        output = ['Cod. Fiscale', 'company', 'url',
-                  'Partita IVA', 'Numero REA',
-                  'emails', 'phones', 'faxes',
-                  'websites', 'wikipedia', 'social', 'people']
+        output = [
+            'Cod. Fiscale',
+            'company',
+            # 'url',
+            'Partita IVA',
+            'Numero REA',
+            'emails',
+            'phones',
+            'faxes',
+            'websites',
+            'wikipedia',
+            'social',
+            # 'people'
+        ]
         self.number_of_elements = len(output)
 
         wb = openpyxl.Workbook()
@@ -42,10 +52,10 @@ class ExcelOutputPipeline:
         if isinstance(item, AtokaContactsItem):
             self._fill_excel_with_company_data(item)
             return item
-        elif isinstance(item, AtokaPersonsInfoItem):
-            code = item.get('code')
-            persons = self._sort_persons_info(item.get('people'))
-            self._fill_excel_with_persons_data(code, persons)
+        # elif isinstance(item, AtokaPersonsInfoItem):
+        #     code = item.get('code')
+        #     persons = self._sort_persons_info(item.get('people'))
+        #     self._fill_excel_with_persons_data(code, persons)
         elif isinstance(item, AtokaErrorContactsItem):
             self._fill_error_excel_with_code_data(item)
         raise DropItem
@@ -132,7 +142,7 @@ class ExcelOutputPipeline:
 
         code = data.get('code')
         company_name = data.get('company_name')
-        url = data.get('url')
+        # url = data.get('url')
         vat_id = data.get('vat_id')
         numero_rea = data.get('numero_rea')
         all_emails = self._collect_items_from_list(data.get('emails'), 'address', 'type')
@@ -146,7 +156,7 @@ class ExcelOutputPipeline:
         faxes = '\n'.join(all_faxes)
         websites = '\n'.join(all_websites)
         social = '\n'.join(all_social)
-        output = [code, company_name, url, vat_id, numero_rea,
+        output = [code, company_name, vat_id, numero_rea,
                   emails, phones, faxes, websites, wikipedia,
                   social]
 
@@ -154,7 +164,7 @@ class ExcelOutputPipeline:
         ws = wb.active
         if code not in self.cod_fiscale_row_mapping:
             self.last_row_output += 1
-            self.cod_fiscale_row_mapping[code] = self.last_row_output
+            # self.cod_fiscale_row_mapping[code] = self.last_row_output
             ws.append(output)
         else:
             for col_number, item in enumerate(output, start=1):

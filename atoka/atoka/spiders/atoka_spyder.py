@@ -179,7 +179,7 @@ class AtokaSpider(scrapy.Spider):
             )
 
     def parse_contacts(self, response, code, company_uid):
-        url = response.url.split('/tab-')[0]
+        # url = response.url.split('/tab-')[0]
         if 'tab-contents' in response.url:
             response_json_obj = json.loads(str(response.text))
             overview = response_json_obj.get('overview')
@@ -202,7 +202,7 @@ class AtokaSpider(scrapy.Spider):
             instance = AtokaContactsItem(
                 code=cod_fiscale,
                 company_name=company_name,
-                url=url,
+                # url=url,
                 vat_id=vat_id,
                 numero_rea=numero_rea,
                 emails=emails,
@@ -236,19 +236,19 @@ class AtokaSpider(scrapy.Spider):
                     del self.code_main_company[code]
                     yield output
 
-            persons_url = self.persons_url.format(uid=company_uid)
-            yield scrapy.Request(
-                url=persons_url,
-                method='GET',
-                headers=DEFAULT_REQUEST_HEADERS,
-                encoding='utf-8',
-                callback=self.parse_persons,
-                cb_kwargs={
-                    'code': code,
-                    'company_uid': company_uid,
-                },
-                dont_filter=True,
-            )
+            # persons_url = self.persons_url.format(uid=company_uid)
+            # yield scrapy.Request(
+            #     url=persons_url,
+            #     method='GET',
+            #     headers=DEFAULT_REQUEST_HEADERS,
+            #     encoding='utf-8',
+            #     callback=self.parse_persons,
+            #     cb_kwargs={
+            #         'code': code,
+            #         'company_uid': company_uid,
+            #     },
+            #     dont_filter=True,
+            # )
 
         gc.collect()
 
