@@ -10,7 +10,6 @@ import scrapy
 
 from ..items import (
     AtokaContactsItem,
-    AtokaPersonsInfoItem,
     AtokaErrorContactsItem,
 )
 from ..settings import DEFAULT_REQUEST_HEADERS, BASE_DIR
@@ -46,7 +45,6 @@ class AtokaSpider(scrapy.Spider):
     }
 
     contacts_url = 'https://atoka.io/api/company-details/companies/{uid}/tab-contents/'
-    persons_url = 'https://atoka.io/api/company-details/people/{uid}/tab-content/'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -137,9 +135,7 @@ class AtokaSpider(scrapy.Spider):
                 )
             if response_company_data:
                 self.code_main_company[self.input_code_fiscale] = response_company_data[0].get('id')
-                self.code_main_company[self.input_code_fiscale + 'people'] = response_company_data[0].get('id')
                 self.code_elements[self.input_code_fiscale] = [item.get('id') for item in response_company_data]
-                self.code_elements[self.input_code_fiscale + 'people'] = [item.get('id') for item in response_company_data]
                 for item in response_company_data:
                     company_uid = item.get('id')
                     contacts_url = self.contacts_url.format(uid=company_uid)
@@ -179,38 +175,26 @@ class AtokaSpider(scrapy.Spider):
             )
 
     def parse_contacts(self, response, code, company_uid):
-        # url = response.url.split('/tab-')[0]
         if 'tab-contents' in response.url:
-            response_json_obj = json.loads(str(response.text))
+            response_json_obj = json.loads(response.text)
             overview = response_json_obj.get('overview')
             contacts = response_json_obj.get('contacts')
-            social = response_json_obj.get('socials')
 
             cod_fiscale = overview.get('taxId') or ''
             vat_id = overview.get('vatId') or ''
             company_name = overview.get('legalName') or ''
-            cciaa = overview.get('cciaa') or ''
-            rea = overview.get('rea') or ''
-            numero_rea = ' '.join([cciaa, rea])
-            wikipedia = overview.get('wikipediaLink') or ''
 
             emails = contacts.get('emails')
             phones = contacts.get('phones')
-            faxes = contacts.get('faxes')
             websites = contacts.get('websites')
 
             instance = AtokaContactsItem(
                 code=cod_fiscale,
                 company_name=company_name,
-                # url=url,
                 vat_id=vat_id,
-                numero_rea=numero_rea,
                 emails=emails,
                 phones=phones,
-                faxes=faxes,
                 websites=websites,
-                wikipedia=wikipedia,
-                social=social,
             )
 
             if self.code_main_company[code] == company_uid and len(self.code_elements[code]) == 1 \
@@ -235,52 +219,6 @@ class AtokaSpider(scrapy.Spider):
                     del self.code_elements[code]
                     del self.code_main_company[code]
                     yield output
-
-            # persons_url = self.persons_url.format(uid=company_uid)
-            # yield scrapy.Request(
-            #     url=persons_url,
-            #     method='GET',
-            #     headers=DEFAULT_REQUEST_HEADERS,
-            #     encoding='utf-8',
-            #     callback=self.parse_persons,
-            #     cb_kwargs={
-            #         'code': code,
-            #         'company_uid': company_uid,
-            #     },
-            #     dont_filter=True,
-            # )
-
-        gc.collect()
-
-    def parse_persons(self, response, code, company_uid):
-        response_json_obj = json.loads(str(response.text))
-        instance = AtokaPersonsInfoItem(
-            code=code,
-            people=response_json_obj.get('items'),
-        )
-        code = code + 'people'
-        if self.code_main_company[code] == company_uid and len(self.code_elements[code]) == 1 \
-                and self.buffer.get(code) is None:
-            del self.code_main_company[code]
-            del self.code_elements[code]
-            yield instance
-
-        else:
-            if self.buffer.get(code) is None:
-                self.buffer[code] = []
-            del self.code_elements[code][self.code_elements[code].index(company_uid)]
-            if company_uid == self.code_main_company[code]:
-                self.buffer[code].insert(0, instance)
-            else:
-                self.buffer[code].append(instance)
-            if not self.code_elements[code]:
-                output = self.buffer[code][0]
-                for item in self.buffer[code][1:]:
-                    output = output + item
-                del self.buffer[code]
-                del self.code_elements[code]
-                del self.code_main_company[code]
-                yield output
 
         gc.collect()
 
