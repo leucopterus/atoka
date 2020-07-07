@@ -49,17 +49,8 @@ class ExcelOutputPipeline:
             self._fill_error_excel_with_code_data(item)
         raise DropItem
 
-    def _collect_items_from_list(self, objects, field, obj_type=None):
-        if field == 'address':
-            verified = [''.join([obj.get(f'{field}'), ' [', obj.get(f'{obj_type}'), ']', ' (A)']) for obj in objects if
-                        obj.get('isVerified')]
-            not_verified = [''.join([obj.get(f'{field}'), ' [', obj.get(f'{obj_type}'), ']']) for obj in objects if
-                            not obj.get('isVerified')]
-        else:
-            verified = [' '.join([obj.get(f'{field}'), '(A)']) for obj in objects if
-                        obj.get('isVerified')]
-            not_verified = [obj.get(f'{field}') for obj in objects if not obj.get('isVerified')]
-        return verified + not_verified
+    def _collect_items_from_list(self, objects, field):
+        return [obj.get(f'{field}') for obj in objects]
 
     def _fill_excel_with_company_data(self, data=None):
         if data is None:
@@ -68,7 +59,7 @@ class ExcelOutputPipeline:
         code = data.get('code')
         company_name = data.get('company_name')
         vat_id = data.get('vat_id')
-        all_emails = self._collect_items_from_list(data.get('emails'), 'address', 'type')
+        all_emails = self._collect_items_from_list(data.get('emails'), 'address')
         all_phones = self._collect_items_from_list(data.get('phones'), 'number')
         all_websites = self._collect_items_from_list(data.get('websites'), 'url')
         max_items_number = max(len(all_emails), len(all_phones), len(all_websites), 1)
