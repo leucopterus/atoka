@@ -8,6 +8,7 @@
 import os
 
 import openpyxl
+from openpyxl.styles import Font
 from scrapy.exceptions import DropItem
 
 from .items import (
@@ -35,6 +36,8 @@ class ExcelOutputPipeline:
         wb = openpyxl.Workbook()
         ws = wb.active
         ws.append(output)
+        row = ws.row_dimensions[1]
+        row.font = Font(bold=True)
         wb.save(self.wb_path)
         wb.close()
 
