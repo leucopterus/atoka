@@ -13,7 +13,6 @@ from scrapy.exceptions import DropItem
 
 from .items import (
     AtokaContactsItem,
-    AtokaErrorContactsItem,
 )
 from .settings import BASE_DIR
 
@@ -21,8 +20,6 @@ from .settings import BASE_DIR
 class ExcelOutputPipeline:
     def __init__(self):
         self.wb_path = os.path.join(BASE_DIR, 'atoka/spiders/output/output.xlsx')
-        self.error_wb_path = os.path.join(BASE_DIR, 'atoka/spiders/output/error.xlsx')
-        self.cod_fiscale_row_mapping = {}
         self.last_row_output = 1
         output = [
             'COMPANY_NAME',
@@ -45,8 +42,6 @@ class ExcelOutputPipeline:
         if isinstance(item, AtokaContactsItem):
             self._fill_excel_with_company_data(item)
             return item
-        elif isinstance(item, AtokaErrorContactsItem):
-            self._fill_error_excel_with_code_data(item)
         raise DropItem
 
     def _collect_items_from_list(self, objects, field):
@@ -73,14 +68,4 @@ class ExcelOutputPipeline:
             output = [company_name, code, vat_id, email, phone, website]
             ws.append(output)
         wb.save(self.wb_path)
-        wb.close()
-
-    def _fill_error_excel_with_code_data(self, item):
-        if not os.path.isfile(self.error_wb_path):
-            wb = openpyxl.Workbook()
-        else:
-            wb = openpyxl.load_workbook(self.error_wb_path)
-        ws = wb.active
-        ws.append([item.get('code'), item.get('reason')])
-        wb.save(self.error_wb_path)
         wb.close()

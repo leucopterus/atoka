@@ -1,0 +1,16 @@
+curl 'https://atoka.io/api/companysearch/facet/' \
+  -H 'Connection: keep-alive' \
+  -H 'Accept: */*' \
+  -H 'X-CSRFToken: w3U9m21V5rdu8oJCNnwN3n9PnBE2ObKvf1K23cRf5EBLyWxjOiVxKy4jWqHJQoEw' \
+  -H 'X-Requested-With: XMLHttpRequest' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36' \
+  -H 'Content-Type: application/json' \
+  -H 'Origin: https://atoka.io' \
+  -H 'Sec-Fetch-Site: same-origin' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Referer: https://atoka.io/' \
+  -H 'Accept-Language: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7' \
+  -H 'Cookie: django_language=it; _iub_cs-551896=%7B%22timestamp%22%3A%222020-06-30T15%3A25%3A38.130Z%22%2C%22version%22%3A%221.21.0%22%2C%22consent%22%3Atrue%2C%22id%22%3A551896%7D; TCID=2020621825419212516489; TCSESSION=2020621825411810065593; _gcl_au=1.1.2020033602.1593530745; _ga=GA1.2.35761652.1593530747; uslk_e=YmI4MTlkYjItMjVkMi1jYjk5LWE1YjAtZWVlZWY4NWZmMjY1~~Paolocarlo%20Cavallanti~pcavallanti@adhocsolutions.it~~~~1~; _gid=GA1.2.754413248.1594992795; tc_cj_v2=%5Ecl_%5Dny%5B%5D%5D_mmZZZZZZKOSNSSLQSKJJJZZZ%5D; uslk_s=Idle%3B0~~0~0~0~~; deviceId=40907b3be23509716072367ebb9d340e; csrftoken=w3U9m21V5rdu8oJCNnwN3n9PnBE2ObKvf1K23cRf5EBLyWxjOiVxKy4jWqHJQoEw; sessionid=.eJxVjs1OwzAQhN_F5ypqsOP83NJLxQFVqgRIXKxNvE5cTFxsp6FUfXccyIFcVjvz7Yz2RnyAxuCjJBXhoRyL2vkO2WvJX-zHeK3V5_FQ7umRufyNFfS617uuyciGTPobnBTGdnoQF40TqW6xDM-kGkZjNr-7kBAggvsilTbo_zR-BQf_-AWMjgqlWAUjETCGXowendDzmynj5QNZ-Q207zjMUJ5g6GzS2iE43STzSbJQn9TG2CmO55jxT1ai2S3BVVsPvo9VTGVZyXMFVDGuWJEDpTTbFiptizxV6RYUtqzh5P4DYjtvzw:1jwQWw:3NlQkWnrYe04IOzYTF5Nj9LPv_w; AWSELB=7F9937EB1E7A14FC00D97A706C375DAA514C1D514542E2C13771DB391B1B69AE54E0BC0D65AD6F13DC6AE1F67C71E738BE9C3C557E45BE6DF5E63CFD2DBAB727C3993C8AF40842AF32378E7CB3C07D536C23800359; mp_7b3e668f6e578f88bd14868ae5b7aff9_mixpanel=%7B%22distinct_id%22%3A%20%2214692%22%2C%22%24device_id%22%3A%20%221730908f395477-009a4fdc6da0ce-39760e5a-1fa400-1730908f3965d8%22%2C%22%24initial_referrer%22%3A%20%22https%3A%2F%2Fatoka.io%2F%22%2C%22%24initial_referring_domain%22%3A%20%22atoka.io%22%2C%22__mps%22%3A%20%7B%7D%2C%22__mpso%22%3A%20%7B%7D%2C%22__mpus%22%3A%20%7B%7D%2C%22__mpa%22%3A%20%7B%7D%2C%22__mpu%22%3A%20%7B%7D%2C%22__mpr%22%3A%20%5B%5D%2C%22__mpap%22%3A%20%5B%5D%2C%22%24user_id%22%3A%20%2214692%22%2C%22%24ignore%22%3A%20false%2C%22from%22%3A%20%22web%22%7D; mp_547eb65f9e26a51510f5f9cf1b6d01e3_mixpanel=%7B%22distinct_id%22%3A%20%2214692%22%2C%22%24device_id%22%3A%20%221735cfb3ae7407-089f3e64e15c95-39770e5a-1fa400-1735cfb3ae89da%22%2C%22%24initial_referrer%22%3A%20%22https%3A%2F%2Fatoka.io%2F%22%2C%22%24initial_referring_domain%22%3A%20%22atoka.io%22%2C%22__mps%22%3A%20%7B%7D%2C%22__mpso%22%3A%20%7B%7D%2C%22__mpus%22%3A%20%7B%7D%2C%22__mpa%22%3A%20%7B%7D%2C%22__mpu%22%3A%20%7B%7D%2C%22__mpr%22%3A%20%5B%5D%2C%22__mpap%22%3A%20%5B%5D%2C%22%24user_id%22%3A%20%2214692%22%2C%22from%22%3A%20%22web%22%2C%22%24ignore%22%3A%20false%7D' \
+  --data-binary '{"version":"3.1.0","facetsConfig":{"email":{"isCollapsed":false,"isActive":true},"hasPhone":{"mode":"include"},"hasWebsite":{"mode":"include"}},"includeFacets":[]}' \
+  --compressed

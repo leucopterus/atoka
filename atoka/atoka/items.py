@@ -14,43 +14,6 @@ class AtokaContactsItem(scrapy.Item):
     phones = scrapy.item.Field()
     websites = scrapy.item.Field()
 
-    def __add__(self, other):
-        data_field_mapping = {
-            'emails': 'address',
-            'phones': 'number',
-            'websites': 'url',
-        }
-        if isinstance(other, self.__class__):
-            for field in self.fields:
-                if other[field]:
-                    if isinstance(self[field], str):
-                        if other[field] not in self[field]:
-                            self[field] = self[field] + ' | ' + other[field]
-                    elif isinstance(self[field], list):
-                        self._add_list_items(other[field], field, data_field_mapping[field])
-                    elif isinstance(self[field], dict):
-                        self._add_dict_items(other[field], field, data_field_mapping[field])
-        return self
-
-    def _add_list_items(self, objects, main_field, field=None):
-        for obj in objects:
-            if field is not None:
-                obj[field] = obj[field] if obj.get(field) else ''
-                if obj[field]:
-                    self[main_field].append(obj)
-            else:
-                self[main_field].append(obj)
-
-    def _add_dict_items(self, objects, main_field, field):
-        for key, value in objects.items():
-            if value and isinstance(value, list):
-                for obj in value:
-                    obj[field] = obj[field] if obj.get(field) else ''
-                    if obj[field]:
-                        if self[main_field].get(key) is None:
-                            self[main_field][key] = []
-                        self[main_field][key].append(obj)
-
 
 class AtokaErrorContactsItem(scrapy.Item):
     code = scrapy.item.Field(serializer=str)
