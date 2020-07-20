@@ -62,7 +62,7 @@ class AtokaSpider(scrapy.Spider):
         super().__init__(*args, **kwargs)
 
         self.step = 10
-        self.companies_amount = 5
+        self.companies_amount = 100
         self.multiply = 0
         self.buffer = {}
         self.code_main_company = {}
@@ -121,7 +121,7 @@ class AtokaSpider(scrapy.Spider):
             encoding='utf-8',
             callback=self.parse_contacts
         )
-        self._controller_sleep(15)
+        self._controller_sleep(5)
 
         gc.collect()
 
