@@ -109,20 +109,19 @@ class AtokaSpider(scrapy.Spider):
         response_json_obj = json.loads(str(response.text))
         response_company_data = response_json_obj.get('data')
 
-        if response_company_data:
-            for num, item in enumerate(response_company_data):
-                company_uid = item.get('id')
-                contacts_url = self.contacts_url.format(uid=company_uid)
-                yield scrapy.Request(
-                    url=contacts_url,
-                    method='GET',
-                    headers=DEFAULT_REQUEST_HEADERS,
-                    encoding='utf-8',
-                    callback=self.parse_contacts,
-                    cb_kwargs={'number': num},
-                    dont_filter=True,
-                )
-                self._controller_sleep(10)
+        contacts_urls = []
+        for item in response_company_data:
+            company_uid = item.get('id')
+            contacts_urls.append(self.contacts_url.format(uid=company_uid))
+
+        yield from response.follow_all(
+            urls=contacts_urls,
+            method='GET',
+            headers=DEFAULT_REQUEST_HEADERS,
+            encoding='utf-8',
+            callback=self.parse_contacts
+        )
+        self._controller_sleep(15)
 
         gc.collect()
 
@@ -142,8 +141,7 @@ class AtokaSpider(scrapy.Spider):
             )
             self._controller_sleep(5)
 
-    def parse_contacts(self, response, number):
-        self.logger.info(f'Company number {number} successfully parsed')
+    def parse_contacts(self, response):
         if 'tab-contents' in response.url:
             response_json_obj = json.loads(response.text)
             overview = response_json_obj.get('overview')
