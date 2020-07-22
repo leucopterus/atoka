@@ -18,12 +18,15 @@ class AtokaSpider(scrapy.Spider):
     domain = 'https://atoka.io/it/'
 
     init_url = 'https://atoka.io/api/companysearch/init/'
-    init_body = {'quid': 'f34202d7a70392b5ae6d76b5ece852'}
+    init_body = {'quid': '0d1d64b0b3c548069232cf482270a0'}
 
     facet_url = 'https://atoka.io/api/companysearch/facet/'
     facet_body = {
         'version': '3.1.0',
         'facetsConfig': {
+            'name': {
+                'value': 'asc'
+            },
             'email': {
                 'isCollapsed': False,
                 'isActive': True
@@ -43,6 +46,9 @@ class AtokaSpider(scrapy.Spider):
         'version': '3.1.0',
         'meta': {},
         'facetsConfig': {
+            'name': {
+                'value': 'asc'
+            },
             'email': {
                 'isCollapsed': False,
                 'isActive': True
@@ -61,9 +67,9 @@ class AtokaSpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.start = 990
+        self.start = 0
         self.step = 10
-        self.companies_amount = 1000
+        self.companies_amount = 50
         self.multiply = 0
         self.buffer = {}
         self.parsed_company_number = 1
