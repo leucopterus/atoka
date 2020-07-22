@@ -7,6 +7,7 @@ import scrapy
 
 
 class AtokaContactsItem(scrapy.Item):
+    number = scrapy.item.Field(serializer=int)
     company_name = scrapy.item.Field(serializer=str)
     code = scrapy.item.Field(serializer=str)
     vat_id = scrapy.item.Field(serializer=str)

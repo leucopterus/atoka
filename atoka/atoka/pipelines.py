@@ -22,6 +22,7 @@ class ExcelOutputPipeline:
         self.wb_path = os.path.join(BASE_DIR, 'atoka/spiders/output/output.xlsx')
         self.last_row_output = 1
         output = [
+            'NUMBER_IN_SEARCH',
             'COMPANY_NAME',
             'TAX_CODE',
             'VAT_NUMBER',
@@ -30,13 +31,14 @@ class ExcelOutputPipeline:
             'WEBSITE',
         ]
 
-        wb = openpyxl.Workbook()
-        ws = wb.active
-        ws.append(output)
-        row = ws.row_dimensions[1]
-        row.font = Font(bold=True)
-        wb.save(self.wb_path)
-        wb.close()
+        if not os.path.isfile(self.wb_path):
+            wb = openpyxl.Workbook()
+            ws = wb.active
+            ws.append(output)
+            row = ws.row_dimensions[1]
+            row.font = Font(bold=True)
+            wb.save(self.wb_path)
+            wb.close()
 
     def process_item(self, item, spider):
         if isinstance(item, AtokaContactsItem):
@@ -51,6 +53,7 @@ class ExcelOutputPipeline:
         if data is None:
             return
 
+        number = data.get('number')
         code = data.get('code')
         company_name = data.get('company_name')
         vat_id = data.get('vat_id')
@@ -65,7 +68,7 @@ class ExcelOutputPipeline:
             email = all_emails[i:i+1][0] if all_emails[i:i+1] else None
             phone = all_phones[i:i+1][0] if all_phones[i:i+1] else None
             website = all_websites[i:i+1][0] if all_websites[i:i+1] else None
-            output = [company_name, code, vat_id, email, phone, website]
+            output = [number, company_name, code, vat_id, email, phone, website]
             ws.append(output)
         wb.save(self.wb_path)
         wb.close()

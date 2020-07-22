@@ -61,12 +61,13 @@ class AtokaSpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.start = 990
         self.step = 10
-        self.companies_amount = 100
+        self.companies_amount = 1000
         self.multiply = 0
         self.buffer = {}
-        self.code_main_company = {}
-        self.code_elements = {}
+        self.parsed_company_number = 1
+        self.dict_of_requests_to_parse_company = {}
 
     def start_requests(self):
         yield scrapy.Request(
@@ -95,6 +96,8 @@ class AtokaSpider(scrapy.Spider):
         if response.url == self.facet_url:
             self.logger.info(f'SUCCESSFULLY PARSED: {response.url}')
             body = deepcopy(self.search_body)
+            if self.start:
+                body['meta'] = {'start': self.start}
             yield scrapy.Request(
                 url=self.search_url,
                 method='POST',
@@ -112,7 +115,10 @@ class AtokaSpider(scrapy.Spider):
         contacts_urls = []
         for item in response_company_data:
             company_uid = item.get('id')
-            contacts_urls.append(self.contacts_url.format(uid=company_uid))
+            url = self.contacts_url.format(uid=company_uid)
+            contacts_urls.append(url)
+            self.dict_of_requests_to_parse_company[url] = self.parsed_company_number
+            self.parsed_company_number += 1
 
         yield from response.follow_all(
             urls=contacts_urls,
@@ -127,7 +133,7 @@ class AtokaSpider(scrapy.Spider):
 
         self.multiply += 1
         start_value_to_search_from = self.multiply*self.step
-        if start_value_to_search_from < self.companies_amount:
+        if start_value_to_search_from <= self.companies_amount:
             search_body = deepcopy(self.search_body)
             search_body['meta'] = {'start': start_value_to_search_from}
             yield scrapy.Request(
@@ -143,6 +149,8 @@ class AtokaSpider(scrapy.Spider):
 
     def parse_contacts(self, response):
         if 'tab-contents' in response.url:
+            number = self.dict_of_requests_to_parse_company.get(response.url)
+            del self.dict_of_requests_to_parse_company[response.url]
             response_json_obj = json.loads(response.text)
             overview = response_json_obj.get('overview')
             contacts = response_json_obj.get('contacts')
@@ -156,6 +164,7 @@ class AtokaSpider(scrapy.Spider):
             websites = contacts.get('websites')
 
             instance = AtokaContactsItem(
+                number=number,
                 code=cod_fiscale,
                 company_name=company_name,
                 vat_id=vat_id,
