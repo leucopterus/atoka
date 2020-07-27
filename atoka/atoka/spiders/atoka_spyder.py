@@ -55,7 +55,7 @@ class AtokaSpider(scrapy.Spider):
         self.code_main_company = {}
         self.code_elements = {}
 
-        self.input_row_number = 1
+        self.input_row_number = 2
         self.input_code_fiscale = self._get_companies_cod_fiscale_from_excel(self.input_row_number)
         self.input_row_number += 1
 
@@ -231,7 +231,7 @@ class AtokaSpider(scrapy.Spider):
                 wb.close()
                 return cod_fiscale
 
-    def _controller_sleep(self, seconds=2):
+    def _controller_sleep(self, seconds=10):
         self.crawler.engine.pause()
-        time.sleep(random() * seconds)
+        time.sleep(15 + random() * seconds)
         self.crawler.engine.unpause()
