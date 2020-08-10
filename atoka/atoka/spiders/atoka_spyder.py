@@ -48,7 +48,7 @@ class AtokaSpider(scrapy.Spider):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.file_path = os.path.join(BASE_DIR, 'atoka/spiders/input/input2000.xlsx')
+        self.file_path = os.path.join(BASE_DIR, 'atoka/spiders/input/input4000-14000.xlsx')
         self.max_objects_in_search = 3
 
         self.buffer = {}
@@ -231,7 +231,7 @@ class AtokaSpider(scrapy.Spider):
                 wb.close()
                 return cod_fiscale
 
-    def _controller_sleep(self, seconds=10):
+    def _controller_sleep(self, seconds=5):
         self.crawler.engine.pause()
-        time.sleep(15 + random() * seconds)
+        time.sleep(20 + random() * seconds)
         self.crawler.engine.unpause()
