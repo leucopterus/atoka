@@ -48,7 +48,7 @@ class AtokaSpider(scrapy.Spider):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.file_path = os.path.join(BASE_DIR, 'atoka/spiders/input/by500/input0-500.xlsx')
+        self.file_path = os.path.join(BASE_DIR, 'atoka/spiders/input/by500/input14000-24000.xlsx')
         self.max_objects_in_search = 3
 
         self.buffer = {}
