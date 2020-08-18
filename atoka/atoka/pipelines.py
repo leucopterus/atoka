@@ -20,8 +20,8 @@ from .settings import BASE_DIR
 
 class ExcelOutputPipeline:
     def __init__(self):
-        self.wb_path = os.path.join(BASE_DIR, 'atoka/spiders/output/output14000-24000.xlsx')
-        self.error_wb_path = os.path.join(BASE_DIR, 'atoka/spiders/output/error14000-24000.xlsx')
+        self.wb_path = os.path.join(BASE_DIR, 'atoka/spiders/output/output24500-25000.xlsx')
+        self.error_wb_path = os.path.join(BASE_DIR, 'atoka/spiders/output/error24500-25000.xlsx')
         self.cod_fiscale_row_mapping = {}
         self.last_row_output = 1
         output = [
